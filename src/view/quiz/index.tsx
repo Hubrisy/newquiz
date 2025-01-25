@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router"
 import { useQuizContext } from "../../context/quiz"
 import { Routes } from "../../routes"
 import { Header } from "./header"
-import { MultipleQuestion } from "./multipleQuestionType"
-import { SingleQuestion } from "./singleQuestionType"
+import { MultipleQuestion } from "./multipleQuestion"
+import { SingleQuestion } from "./singleQuestion"
 
 export const Quiz = () => {
   const { questions } = useQuizContext()

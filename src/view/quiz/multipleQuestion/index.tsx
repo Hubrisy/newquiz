@@ -58,19 +58,27 @@ export const MultipleQuestion: React.FC<Props> = ({
         <h1>{currentQuestion?.label}</h1>
         <QuestionsBlock>
           {currentQuestion?.options ? (
-            currentQuestion?.options.map((option) => (
-              <div key={option.value}>
-                <QuestionItem onClick={() => handleChange(option.value)}>
-                  <label htmlFor={option.label}>{option.label}</label>
-                  <input
-                    type="checkbox"
-                    name="option[]"
-                    value={option.label}
-                    checked={checkedOptions.includes(option.value)}
-                  />
-                </QuestionItem>
-              </div>
-            ))
+            currentQuestion?.options.map((option) => {
+              const isChecked = checkedOptions.includes(option.value)
+
+              return (
+                <div key={option.value}>
+                  <QuestionItem
+                    border={isChecked ? "2px solid #aa00ff" : "2px solid grey"}
+                    onClick={() => handleChange(option.value)}
+                  >
+                    {option.img && <img src={option.img} alt="" />}
+                    <label htmlFor={option.label}>{option.label}</label>
+                    <input
+                      type="checkbox"
+                      name="option[]"
+                      value={option.label}
+                      checked={isChecked}
+                    />
+                  </QuestionItem>
+                </div>
+              )
+            })
           ) : (
             <div>No data</div>
           )}

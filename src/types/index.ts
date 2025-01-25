@@ -8,6 +8,7 @@ export interface QuestionType {
 export interface QuestionOptionsType {
   label: string
   value: string
+  img: string
 }
 
 export type AnswersType = Record<string, string>

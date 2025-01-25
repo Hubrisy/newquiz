@@ -34,6 +34,7 @@ export const SingleQuestion: React.FC<Props> = ({
             currentQuestion?.options.map((option) => (
               <div key={option.value}>
                 <QuestionItem onClick={() => handleClick(option.value)}>
+                  {option.img && <img src={option.img} alt="" />}
                   <div>{option.label}</div>
                   <img src={Arrow} alt="" />
                 </QuestionItem>

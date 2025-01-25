@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const HeaderStyledContainer = styled.div`
   height: 72px;
   width: 100%;
-  border-bottom: 1px solid grey;
+  border-bottom: 2px solid grey;
 `
 export const HeaderStyledBlock = styled.div`
   width: 75%;
@@ -18,5 +18,9 @@ export const HeaderStyledBlock = styled.div`
     align-items: center;
     font-size: 16px;
     font-weight: 600;
+  }
+
+  div:first-child {
+    cursor: pointer;
   }
 `

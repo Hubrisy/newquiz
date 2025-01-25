@@ -1,5 +1,9 @@
 import styled from "styled-components"
 
+interface QuestionItemProps {
+  border?: string
+}
+
 export const QuizContainer = styled.div`
   margin-top: 180px;
   display: flex;
@@ -16,16 +20,49 @@ export const QuestionsBlock = styled.div`
   flex-direction: column;
   align-items: center;
 `
-export const QuestionItem = styled.div`
+export const QuestionItem = styled.div<QuestionItemProps>`
   margin-top: 10px;
+  font-size: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 16px;
   width: 350px;
-  height: 50px;
+  max-height: 100%;
   border-radius: 10px;
-  border: 1px solid grey;
+  border: ${(props) => props.border || "2px solid grey"};
+
+  input[type="checkbox"] {
+    appearance: none; /* Убираем стандартное отображение */
+    -webkit-appearance: none; /* Для браузеров Webkit */
+    -moz-appearance: none; /* Для Firefox */
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; /* Делаем его круглым */
+    background-color: rgb(229, 226, 226); /* Фон, если не выбран */
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease; /* Плавное изменение */
+  }
+
+  /* Когда чекбокс выбран */
+  input[type="checkbox"]:checked {
+    background-color: #aa00ff; /* Зеленый фон */
+    border-color: #aa00ff; /* Зеленая граница */
+  }
+
+  /* Псевдоэлемент для "галочки" */
+  input[type="checkbox"]:checked::before {
+    content: ""; /* Контент галочки */
+    position: absolute;
+    left: 6px;
+    top: 1.5px;
+    width: 4px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg); /* Поворот для создания галочки */
+  }
 `
 
 export const ImgStyled = styled.img`
