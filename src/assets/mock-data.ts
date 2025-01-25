@@ -1,23 +1,3 @@
-import arms from "../imgs/arrimg/arms.png"
-import belly from "../imgs/arrimg/belly.png"
-import breast from "../imgs/arrimg/breast.png"
-import buttocks from "../imgs/arrimg/buttocks.png"
-import food1 from "../imgs/arrimg/food1.png"
-import food2 from "../imgs/arrimg/food2.png"
-import food3 from "../imgs/arrimg/food3.png"
-import food4 from "../imgs/arrimg/food4.png"
-import food5 from "../imgs/arrimg/food5.png"
-import food6 from "../imgs/arrimg/food6.png"
-import food7 from "../imgs/arrimg/food7.png"
-import icon1 from "../imgs/arrimg/icon1.png"
-import icon2 from "../imgs/arrimg/icon2.png"
-import icon3 from "../imgs/arrimg/icon3.png"
-import icon4 from "../imgs/arrimg/icon4.png"
-import icon5 from "../imgs/arrimg/icon5.png"
-import legs from "../imgs/arrimg/legs.png"
-import press1 from "../imgs/arrimg/press1.png"
-import press2 from "../imgs/arrimg/press2.png"
-
 export const MOCK_DATA = {
   data: {
     name: "test-day",
@@ -43,27 +23,27 @@ export const MOCK_DATA = {
           {
             label: "Breast form",
             value: "breast_form",
-            img: breast,
+            img: "/images/quiz/breast.png",
           },
           {
             label: "Arms",
             value: "arms",
-            img: arms,
+            img: "/images/quiz/arms.png",
           },
           {
             label: "Belly",
             value: "belly",
-            img: belly,
+            img: "/images/quiz/belly.png",
           },
           {
             label: "Buttocks",
             value: "buttocks",
-            img: buttocks,
+            img: "/images/quiz/buttocks.png",
           },
           {
             label: "Legs and Thighs",
             value: "legs_and_thighs",
-            img: legs,
+            img: "/images/quiz/legs.png",
           },
         ],
         label: "Select body areas you would like to improve:",
@@ -116,12 +96,12 @@ export const MOCK_DATA = {
           {
             label: "Yes",
             value: "yes",
-            img: press1,
+            img: "/images/quiz/press1.png",
           },
           {
             label: "No",
             value: "no",
-            img: press2,
+            img: "/images/quiz/press2.png",
           },
           { label: "Not sure", value: "not_sure" },
         ],
@@ -136,27 +116,27 @@ export const MOCK_DATA = {
           {
             label: "Flexibility",
             value: "flexibility",
-            img: icon1,
+            img: "/images/quiz/icon1.png",
           },
           {
             label: "Aerobic",
             value: "aerobic",
-            img: icon2,
+            img: "/images/quiz/icon2.png",
           },
           {
             label: "Strength",
             value: "strength",
-            img: icon3,
+            img: "/images/quiz/icon3.png",
           },
           {
             label: "Others",
             value: "others",
-            img: icon4,
+            img: "/images/quiz/icon4.png",
           },
           {
             label: "I don\u2019t like workouts",
             value: "i_do_not_like_workouts",
-            img: icon5,
+            img: "/images/quiz/icon5.png",
             custom: { deselectAll: true },
           },
         ],
@@ -186,37 +166,37 @@ export const MOCK_DATA = {
           {
             label: "Lactose",
             value: "lactose",
-            img: food1,
+            img: "/images/quiz/food1.png",
           },
           {
             label: "Eggs",
             value: "eggs",
-            img: food2,
+            img: "/images/quiz/food2.png",
           },
           {
             label: "Nuts",
             value: "nuts",
-            img: food3,
+            img: "/images/quiz/food3.png",
           },
           {
             label: "Soy",
             value: "soy",
-            img: food4,
+            img: "/images/quiz/food4.png",
           },
           {
             label: "Gluten",
             value: "gluten",
-            img: food5,
+            img: "/images/quiz/food5.png",
           },
           {
             label: "Fish",
             value: "fish",
-            img: food6,
+            img: "/images/quiz/food6.png",
           },
           {
             label: "Shellfish",
             value: "shellfish",
-            img: food7,
+            img: "/images/quiz/food7.png",
           },
           {
             label: "None of the Above",
