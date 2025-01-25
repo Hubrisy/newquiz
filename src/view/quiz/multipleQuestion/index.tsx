@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Button } from "../../../components/button"
 import { useQuizContext } from "../../../context/quiz"
-import type { QuestionType } from "../../../types"
+import type { QuestionOptionsType, QuestionType } from "../../../types"
 import { QuestionItem, QuestionsBlock, QuizContainer } from "../styled"
 
 interface Props {
@@ -14,38 +14,36 @@ export const MultipleQuestion: React.FC<Props> = ({
   currentQuestion,
   goToNextQuestion,
 }) => {
-  const { answers, setAnswers } = useQuizContext()
-  const [checkedOptions, setCheckedOptions] = useState<Array<string>>(() => {
-    const answer = answers[currentQuestion.key]
+  const { setAnswers } = useQuizContext()
+  const [checkedOptions, setCheckedOptions] = useState<
+    Array<QuestionOptionsType>
+  >([])
 
-    if (answer) {
-      return answer.split("|")
-    }
+  const handleChange = (answer: QuestionOptionsType) => {
+    const isAlreadyExist = checkedOptions.some(
+      (opt) => opt.value === answer.value
+    )
 
-    return []
-  })
-
-  const handleChange = (answer: string) => {
-    let newCheckedOptions = [...checkedOptions]
-
-    const isAlreadyInTheAnswers = newCheckedOptions.includes(answer)
-
-    if (isAlreadyInTheAnswers) {
-      newCheckedOptions = newCheckedOptions.filter(
-        (option) => option !== answer
+    if (isAlreadyExist) {
+      const filteredOptions = checkedOptions.filter(
+        (opt) => opt.value !== answer.value
       )
-    } else {
-      newCheckedOptions.push(answer)
-    }
 
-    setCheckedOptions(newCheckedOptions)
+      setCheckedOptions(filteredOptions)
+    } else {
+      setCheckedOptions((prev) => {
+        return [...prev, answer]
+      })
+    }
   }
 
   const nextPage = () => {
     setAnswers((prev) => {
       return {
         ...prev,
-        [currentQuestion.key]: checkedOptions.join("|"),
+        [currentQuestion.key]: checkedOptions
+          .map((option) => option.value)
+          .join("|"),
       }
     })
 
@@ -59,13 +57,15 @@ export const MultipleQuestion: React.FC<Props> = ({
         <QuestionsBlock>
           {currentQuestion?.options ? (
             currentQuestion?.options.map((option) => {
-              const isChecked = checkedOptions.includes(option.value)
+              const isChecked = checkedOptions.some(
+                (opt) => opt.value === option.value
+              )
 
               return (
                 <div key={option.value}>
                   <QuestionItem
                     border={isChecked ? "2px solid #aa00ff" : "2px solid grey"}
-                    onClick={() => handleChange(option.value)}
+                    onClick={() => handleChange(option)}
                   >
                     {option.img && <img src={option.img} alt="" />}
                     <label htmlFor={option.label}>{option.label}</label>
