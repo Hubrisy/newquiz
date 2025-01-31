@@ -3,7 +3,9 @@ import { useNavigate, useParams } from "react-router"
 
 import { useQuizContext } from "../../context/quiz"
 import { Routes } from "../../routes"
+import { Age } from "./age"
 import { Header } from "./header"
+import { Info } from "./info"
 import { MultipleQuestion } from "./multipleQuestion"
 import { SingleQuestion } from "./singleQuestion"
 
@@ -18,9 +20,12 @@ export const Quiz = () => {
 
   const goToNextQuestion = () => {
     const nextNumber = currentIndex + 2
+    console.log("Navigating to:", nextNumber)
 
-    if (nextNumber < questions.length) {
+    if (nextNumber <= questions.length) {
       navigate(Routes.quiz.replace(":inx", `${nextNumber}`))
+    } else {
+      navigate(Routes.result)
     }
   }
 
@@ -39,6 +44,18 @@ export const Quiz = () => {
       )}
       {currentQuestion.type === "multiple" && (
         <MultipleQuestion
+          goToNextQuestion={goToNextQuestion}
+          currentQuestion={currentQuestion}
+        />
+      )}
+      {currentQuestion.type === "info" && (
+        <Info
+          goToNextQuestion={goToNextQuestion}
+          currentQuestion={currentQuestion}
+        />
+      )}
+      {currentQuestion.type === "age" && (
+        <Age
           goToNextQuestion={goToNextQuestion}
           currentQuestion={currentQuestion}
         />

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router"
 
 import { useQuizContext } from "../../../context/quiz"
 import BackArrow from "../../../imgs/back.png"
-import { HeaderStyledBlock, HeaderStyledContainer } from "./styled"
+import { HeaderStyledBlock, HeaderStyledContainer, Line } from "./styled"
 
 export const Header = () => {
   const { questions } = useQuizContext()
@@ -13,6 +13,10 @@ export const Header = () => {
   const goToPrevPage = () => {
     navigate(-1)
   }
+
+  const questionWidth = 100 / questions.length
+  const fieldWidth = questionWidth * Number(params.inx)
+  const formatedFieldWidth = Number.isNaN(fieldWidth) ? 0 : fieldWidth
 
   return (
     <HeaderStyledContainer>
@@ -25,6 +29,7 @@ export const Header = () => {
           {params.inx} of {questions.length}
         </div>
       </HeaderStyledBlock>
+      <Line width={`${formatedFieldWidth}%`} />
     </HeaderStyledContainer>
   )
 }

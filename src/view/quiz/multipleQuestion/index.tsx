@@ -14,40 +14,58 @@ export const MultipleQuestion: React.FC<Props> = ({
   currentQuestion,
   goToNextQuestion,
 }) => {
-  const { setAnswers } = useQuizContext()
+  const { answers, setAnswers } = useQuizContext()
   const [checkedOptions, setCheckedOptions] = useState<
     Array<QuestionOptionsType>
-  >([])
+  >(() => {
+    if (answers[currentQuestion.key]) {
+      const splitAnswers = answers[currentQuestion.key].split("|")
+
+      if (currentQuestion.options) {
+        return currentQuestion.options.filter((option) =>
+          splitAnswers.includes(option.value)
+        )
+      }
+    }
+
+    return []
+  })
 
   const handleChange = (answer: QuestionOptionsType) => {
-    const isAlreadyExist = checkedOptions.some(
-      (opt) => opt.value === answer.value
-    )
+    if (answer.custom?.deselectAll) {
+      setCheckedOptions([answer])
+
+      return
+    }
+
+    const newOptions = checkedOptions.filter((opt) => !opt.custom?.deselectAll)
+
+    const isAlreadyExist = newOptions.some((opt) => opt.value === answer.value)
 
     if (isAlreadyExist) {
-      const filteredOptions = checkedOptions.filter(
+      const filteredOptions = newOptions.filter(
         (opt) => opt.value !== answer.value
       )
 
       setCheckedOptions(filteredOptions)
     } else {
-      setCheckedOptions((prev) => {
-        return [...prev, answer]
-      })
+      setCheckedOptions([...newOptions, answer])
     }
   }
 
   const nextPage = () => {
-    setAnswers((prev) => {
-      return {
-        ...prev,
-        [currentQuestion.key]: checkedOptions
-          .map((option) => option.value)
-          .join("|"),
-      }
-    })
+    if (checkedOptions.length) {
+      setAnswers((prev) => {
+        return {
+          ...prev,
+          [currentQuestion.key]: checkedOptions
+            .map((option) => option.value)
+            .join("|"),
+        }
+      })
 
-    goToNextQuestion()
+      goToNextQuestion()
+    }
   }
 
   return (
@@ -84,7 +102,9 @@ export const MultipleQuestion: React.FC<Props> = ({
           )}
         </QuestionsBlock>
       </div>
-      <Button onClick={nextPage}>Continue</Button>
+      <Button disabled={!checkedOptions.length} onClick={nextPage}>
+        Continue
+      </Button>
     </QuizContainer>
   )
 }

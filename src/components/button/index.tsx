@@ -17,6 +17,11 @@ const ButtonStyled = styled.button`
   color: white;
   font-size: 16px;
   font-weight: 700;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `
 
 export const Button: React.FC<PropsWithChildren<ButtonI>> = ({

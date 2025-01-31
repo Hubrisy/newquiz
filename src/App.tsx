@@ -6,6 +6,7 @@ import { useQuizContext } from "./context/quiz"
 import { Routes as RoutesEnum } from "./routes"
 import { TitlePage } from "./view/home"
 import { Quiz } from "./view/quiz"
+import { DataResult } from "./view/quiz/results/dataResult"
 
 const AppWrapper = styled.div`
   position: relative;
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path={RoutesEnum.root} element={<TitlePage />} />
         <Route path={RoutesEnum.quiz} element={<Quiz />} />
+        <Route path={RoutesEnum.result} element={<DataResult />} />
       </Routes>
     </AppWrapper>
   )

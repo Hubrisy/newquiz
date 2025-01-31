@@ -1,8 +1,10 @@
 export interface QuestionType {
-  type: "single" | "multiple" | "info"
+  type: "single" | "multiple" | "info" | "age"
   label: string
   key: string
-  options: Array<QuestionOptionsType>
+  options?: Array<QuestionOptionsType>
+  description?: string
+  img?: string
 }
 
 export interface QuestionOptionsType {
@@ -15,3 +17,7 @@ export interface QuestionOptionsType {
 }
 
 export type AnswersType = Record<string, string>
+
+export enum SessionStorageKeys {
+  answers = "answers",
+}

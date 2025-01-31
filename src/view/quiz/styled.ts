@@ -5,10 +5,10 @@ interface QuestionItemProps {
 }
 
 export const QuizContainer = styled.div`
-  margin-top: 180px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 100px;
 
   button {
     margin-top: 30px;
@@ -68,4 +68,34 @@ export const QuestionItem = styled.div<QuestionItemProps>`
 export const ImgStyled = styled.img`
   width: 20px;
   height: 20px;
+`
+
+export const InfoContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`
+export const InfoBlock = styled.div`
+  margin-top: 40px;
+
+  h1 {
+    font-size: 40px;
+    font-weight: 600;
+    text-align: center;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+    margin-bottom: 24px;
+  }
+`
+
+export const InfoText = styled.div`
+  margin-top: 15px;
+  font-size: 16x;
+  font-weight: 400;
+  max-width: 544px;
+  text-align: center;
 `

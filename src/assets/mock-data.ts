@@ -158,6 +158,7 @@ export const MOCK_DATA = {
         label: "Did you know?",
         description:
           "Low impact exercises are completely safe during breastfeeding and do not affect the milk supply or taste.",
+        img: "/images/quiz/mom.png",
         key: "info_block",
       },
       {
@@ -207,6 +208,11 @@ export const MOCK_DATA = {
         label: "What kind of allergies do you have?",
         description: "Select all that apply.",
         key: "allergies",
+      },
+      {
+        type: "age",
+        label: "How young are you?",
+        key: "age",
       },
     ],
   },

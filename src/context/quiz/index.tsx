@@ -2,7 +2,12 @@ import type { Dispatch, PropsWithChildren, SetStateAction } from "react"
 import React, { createContext, useContext, useEffect, useState } from "react"
 
 import MockApi from "../../apis/api"
-import type { AnswersType, QuestionType } from "../../types"
+import {
+  type AnswersType,
+  type QuestionType,
+  SessionStorageKeys,
+} from "../../types"
+import { getFromSessionStorage, setToSessionStorage } from "../../utils/storage"
 
 interface QuizContextType {
   questions: Array<QuestionType>
@@ -24,7 +29,23 @@ export const QuizContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const [questions, setQuestions] = useState<Array<QuestionType>>([])
-  const [answers, setAnswers] = useState<AnswersType>({})
+  const [answers, setAnswers] = useState<AnswersType>(() => {
+    try {
+      const data = getFromSessionStorage(SessionStorageKeys.answers)
+
+      if (data) {
+        return JSON.parse(data)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+
+    return {}
+  })
+
+  useEffect(() => {
+    setToSessionStorage(SessionStorageKeys.answers, JSON.stringify(answers))
+  }, [answers])
 
   useEffect(() => {
     const f = async () => {
