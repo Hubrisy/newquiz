@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 
+import { Button } from "../../../components/button"
+import { Input } from "../../../components/input"
 import { useQuizContext } from "../../../context/quiz"
 import type { QuestionType } from "../../../types"
-import { AgeBlock, AgeContainer, Button } from "./styled"
+import { AgeBlock, AgeContainer } from "./styled"
 
 interface Props {
   goToNextQuestion: () => void
@@ -11,14 +13,22 @@ interface Props {
 
 export const Age: React.FC<Props> = ({ goToNextQuestion, currentQuestion }) => {
   const [value, setValue] = useState("")
+  const [isError, setIsError] = useState(false)
   const { setAnswers } = useQuizContext()
 
   const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+    const inputValue = e.target.value
+
+    if (/^[1-9][0-9]*$/.test(inputValue) || inputValue === "") {
+      const isValueValid = Number(inputValue) >= 18 && Number(inputValue) < 100
+
+      setIsError(!isValueValid)
+      setValue(inputValue)
+    }
   }
 
   const goToNextPage = () => {
-    if (value) {
+    if (!isError) {
       setAnswers((prev) => {
         return { ...prev, [currentQuestion.key]: value }
       })
@@ -30,19 +40,21 @@ export const Age: React.FC<Props> = ({ goToNextQuestion, currentQuestion }) => {
     <AgeContainer>
       <AgeBlock>
         <h1>How young are you?</h1>
-        <input
+        <Input
           name="age"
           value={value}
           type="text"
           placeholder="Age"
           inputMode="numeric"
           onChange={handleValue}
+          isError={isError}
+          errorMessage={
+            isError
+              ? "Your age should be higher 18 or higher and less then 100"
+              : undefined
+          }
         />
-        <Button
-          color={value && "white"}
-          backgroundColor={value && "#aa00ff"}
-          onClick={goToNextPage}
-        >
+        <Button onClick={goToNextPage} disabled={isError}>
           Next
         </Button>
       </AgeBlock>

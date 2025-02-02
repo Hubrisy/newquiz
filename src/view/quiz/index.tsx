@@ -3,11 +3,31 @@ import { useNavigate, useParams } from "react-router"
 
 import { useQuizContext } from "../../context/quiz"
 import { Routes } from "../../routes"
-import { Age } from "./age"
 import { Header } from "./header"
-import { Info } from "./info"
-import { MultipleQuestion } from "./multipleQuestion"
-import { SingleQuestion } from "./singleQuestion"
+
+const LazySingleQuestion = React.lazy(() =>
+  import("./singleQuestion").then((module) => ({
+    default: module.SingleQuestion,
+  }))
+)
+
+const LazyMultipleQuestion = React.lazy(() =>
+  import("./multipleQuestion").then((module) => ({
+    default: module.MultipleQuestion,
+  }))
+)
+
+const LazyAge = React.lazy(() =>
+  import("./age").then((module) => ({
+    default: module.Age,
+  }))
+)
+
+const LazyInfo = React.lazy(() =>
+  import("./info").then((module) => ({
+    default: module.Info,
+  }))
+)
 
 export const Quiz = () => {
   const { questions } = useQuizContext()
@@ -37,25 +57,25 @@ export const Quiz = () => {
     <div>
       <Header />
       {currentQuestion.type === "single" && (
-        <SingleQuestion
+        <LazySingleQuestion
           goToNextQuestion={goToNextQuestion}
           currentQuestion={currentQuestion}
         />
       )}
       {currentQuestion.type === "multiple" && (
-        <MultipleQuestion
+        <LazyMultipleQuestion
           goToNextQuestion={goToNextQuestion}
           currentQuestion={currentQuestion}
         />
       )}
       {currentQuestion.type === "info" && (
-        <Info
+        <LazyInfo
           goToNextQuestion={goToNextQuestion}
           currentQuestion={currentQuestion}
         />
       )}
       {currentQuestion.type === "age" && (
-        <Age
+        <LazyAge
           goToNextQuestion={goToNextQuestion}
           currentQuestion={currentQuestion}
         />
