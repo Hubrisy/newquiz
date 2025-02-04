@@ -1,15 +1,10 @@
 import React from "react"
 
 import { Button } from "../../../components/button"
-import type { QuestionType } from "../../../types"
 import { InfoBlock, InfoContainer, InfoText } from "../styled"
+import type { QuizQuestionProps } from "../types"
 
-interface Props {
-  currentQuestion: QuestionType
-  goToNextQuestion: () => void
-}
-
-export const Info: React.FC<Props> = ({
+export const Info: React.FC<QuizQuestionProps> = ({
   currentQuestion,
   goToNextQuestion,
 }) => {

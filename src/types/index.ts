@@ -1,5 +1,5 @@
 export interface QuestionType {
-  type: "single" | "multiple" | "info" | "age"
+  type: "single" | "multiple" | "info" | "age" | "height"
   label: string
   key: string
   options?: Array<QuestionOptionsType>
@@ -14,6 +14,9 @@ export interface QuestionOptionsType {
   custom?: {
     deselectAll?: boolean
   }
+  system_name?: string
+  quantity_one?: string
+  quantity_two?: string
 }
 
 export type AnswersType = Record<string, string>

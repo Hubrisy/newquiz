@@ -4,28 +4,31 @@ import { useNavigate, useParams } from "react-router"
 import { useQuizContext } from "../../context/quiz"
 import { Routes } from "../../routes"
 import { Header } from "./header"
+import type { QuizQuestionProps } from "./types"
 
 const LazySingleQuestion = React.lazy(() =>
   import("./singleQuestion").then((module) => ({
     default: module.SingleQuestion,
   }))
 )
-
 const LazyMultipleQuestion = React.lazy(() =>
   import("./multipleQuestion").then((module) => ({
     default: module.MultipleQuestion,
   }))
 )
-
 const LazyAge = React.lazy(() =>
   import("./age").then((module) => ({
     default: module.Age,
   }))
 )
-
 const LazyInfo = React.lazy(() =>
   import("./info").then((module) => ({
     default: module.Info,
+  }))
+)
+const LazyHeight = React.lazy(() =>
+  import("./height").then((module) => ({
+    default: module.Height,
   }))
 )
 
@@ -49,6 +52,11 @@ export const Quiz = () => {
     }
   }
 
+  const questionProps: QuizQuestionProps = {
+    goToNextQuestion,
+    currentQuestion,
+  }
+
   if (!questions.length) {
     return <div>Loading...</div>
   }
@@ -57,29 +65,14 @@ export const Quiz = () => {
     <div>
       <Header />
       {currentQuestion.type === "single" && (
-        <LazySingleQuestion
-          goToNextQuestion={goToNextQuestion}
-          currentQuestion={currentQuestion}
-        />
+        <LazySingleQuestion {...questionProps} />
       )}
       {currentQuestion.type === "multiple" && (
-        <LazyMultipleQuestion
-          goToNextQuestion={goToNextQuestion}
-          currentQuestion={currentQuestion}
-        />
+        <LazyMultipleQuestion {...questionProps} />
       )}
-      {currentQuestion.type === "info" && (
-        <LazyInfo
-          goToNextQuestion={goToNextQuestion}
-          currentQuestion={currentQuestion}
-        />
-      )}
-      {currentQuestion.type === "age" && (
-        <LazyAge
-          goToNextQuestion={goToNextQuestion}
-          currentQuestion={currentQuestion}
-        />
-      )}
+      {currentQuestion.type === "info" && <LazyInfo {...questionProps} />}
+      {currentQuestion.type === "age" && <LazyAge {...questionProps} />}
+      {currentQuestion.type === "height" && <LazyHeight {...questionProps} />}
     </div>
   )
 }

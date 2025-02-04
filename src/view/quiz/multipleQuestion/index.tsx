@@ -2,15 +2,11 @@ import React, { useState } from "react"
 
 import { Button } from "../../../components/button"
 import { useQuizContext } from "../../../context/quiz"
-import type { QuestionOptionsType, QuestionType } from "../../../types"
+import type { QuestionOptionsType } from "../../../types"
 import { QuestionItem, QuestionsBlock, QuizContainer } from "../styled"
+import type { QuizQuestionProps } from "../types"
 
-interface Props {
-  currentQuestion: QuestionType
-  goToNextQuestion: () => void
-}
-
-export const MultipleQuestion: React.FC<Props> = ({
+export const MultipleQuestion: React.FC<QuizQuestionProps> = ({
   currentQuestion,
   goToNextQuestion,
 }) => {

@@ -3,15 +3,14 @@ import React, { useState } from "react"
 import { Button } from "../../../components/button"
 import { Input } from "../../../components/input"
 import { useQuizContext } from "../../../context/quiz"
-import type { QuestionType } from "../../../types"
+import { isNumber } from "../../../utils/validation"
+import type { QuizQuestionProps } from "../types"
 import { AgeBlock, AgeContainer } from "./styled"
 
-interface Props {
-  goToNextQuestion: () => void
-  currentQuestion: QuestionType
-}
-
-export const Age: React.FC<Props> = ({ goToNextQuestion, currentQuestion }) => {
+export const Age: React.FC<QuizQuestionProps> = ({
+  goToNextQuestion,
+  currentQuestion,
+}) => {
   const [value, setValue] = useState("")
   const [isError, setIsError] = useState(false)
   const { setAnswers } = useQuizContext()
@@ -19,7 +18,7 @@ export const Age: React.FC<Props> = ({ goToNextQuestion, currentQuestion }) => {
   const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
 
-    if (/^[1-9][0-9]*$/.test(inputValue) || inputValue === "") {
+    if (isNumber(inputValue) || inputValue === "") {
       const isValueValid = Number(inputValue) >= 18 && Number(inputValue) < 100
 
       setIsError(!isValueValid)
@@ -39,7 +38,7 @@ export const Age: React.FC<Props> = ({ goToNextQuestion, currentQuestion }) => {
   return (
     <AgeContainer>
       <AgeBlock>
-        <h1>How young are you?</h1>
+        <h1>{currentQuestion.label}</h1>
         <Input
           name="age"
           value={value}
