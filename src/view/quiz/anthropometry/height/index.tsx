@@ -1,27 +1,20 @@
 import React, { useMemo, useState } from "react"
 
-import { Button } from "../../../../components/button"
 import { Input } from "../../../../components/input"
 import { useQuizContext } from "../../../../context/quiz"
 import { isNumber } from "../../../../utils/validation"
-import type { MeasurementSystem, QuizQuestionProps } from "../../types"
-import {
-  AnthropometryBlock,
-  AnthropometryContainer,
-  MetricBlock,
-  MetricItem,
-  MetricSystemBlock,
-  QuantitesContainer,
-  QuantitiesBlock,
-} from "../styled"
+import type { QuizQuestionProps } from "../../types"
+import { AnthropometryLayout } from "../Layout"
+import { QuantitiesBlock } from "../styled"
+import { useMetricSystem } from "../useMetricSystem"
 
 export const Height: React.FC<QuizQuestionProps> = ({
   goToNextQuestion,
   currentQuestion,
 }) => {
   const { setAnswers } = useQuizContext()
+  const { selectSystem, setSelectSystem } = useMetricSystem()
   const [isError, setIsError] = useState(true)
-  const [selectSystem, setSelectSystem] = useState<MeasurementSystem>("metric")
   const [value, setValue] = useState<Record<"cm" | "ft" | "in", string>>({
     cm: "",
     ft: "",
@@ -93,52 +86,36 @@ export const Height: React.FC<QuizQuestionProps> = ({
   }, [value, selectSystem])
 
   return (
-    <AnthropometryContainer>
-      <AnthropometryBlock>
-        <h1>{currentQuestion.label}</h1>
-        <MetricBlock>
-          <MetricSystemBlock>
-            <div onClick={() => setSelectSystem("metric")}>
-              <MetricItem isSelected={selectSystem === "metric"}>
-                Metric
-              </MetricItem>
-            </div>
-            <div onClick={() => setSelectSystem("imperial")}>
-              <MetricItem isSelected={selectSystem === "imperial"}>
-                Imperial
-              </MetricItem>
-            </div>
-          </MetricSystemBlock>
-          <QuantitesContainer>
-            {selectSystem === "metric" && (
-              <QuantitiesBlock>
-                <Input
-                  value={value.cm}
-                  placeholder="cm"
-                  onChange={(e) => handleInputChange(e, "cm")}
-                />
-              </QuantitiesBlock>
-            )}
-            {selectSystem === "imperial" && (
-              <QuantitiesBlock>
-                <Input
-                  value={value.ft}
-                  placeholder="ft"
-                  onChange={(e) => handleInputChange(e, "ft")}
-                />
-                <Input
-                  value={value.in}
-                  placeholder="in"
-                  onChange={(e) => handleInputChange(e, "in")}
-                />
-              </QuantitiesBlock>
-            )}
-          </QuantitesContainer>
-        </MetricBlock>
-        <Button onClick={nextPage} disabled={isError || isDisabled}>
-          Continue
-        </Button>
-      </AnthropometryBlock>
-    </AnthropometryContainer>
+    <AnthropometryLayout
+      isDisabled={isError || !!isDisabled}
+      selectSystem={selectSystem}
+      setSelectSystem={setSelectSystem}
+      title={currentQuestion.label}
+      onClick={nextPage}
+    >
+      {selectSystem === "metric" && (
+        <QuantitiesBlock>
+          <Input
+            value={value.cm}
+            placeholder="cm"
+            onChange={(e) => handleInputChange(e, "cm")}
+          />
+        </QuantitiesBlock>
+      )}
+      {selectSystem === "imperial" && (
+        <QuantitiesBlock>
+          <Input
+            value={value.ft}
+            placeholder="ft"
+            onChange={(e) => handleInputChange(e, "ft")}
+          />
+          <Input
+            value={value.in}
+            placeholder="in"
+            onChange={(e) => handleInputChange(e, "in")}
+          />
+        </QuantitiesBlock>
+      )}
+    </AnthropometryLayout>
   )
 }
