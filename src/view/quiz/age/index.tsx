@@ -11,9 +11,18 @@ export const Age: React.FC<QuizQuestionProps> = ({
   goToNextQuestion,
   currentQuestion,
 }) => {
-  const [value, setValue] = useState("")
+  const { answers, setAnswers } = useQuizContext()
+
   const [isError, setIsError] = useState(false)
-  const { setAnswers } = useQuizContext()
+  const [value, setValue] = useState(() => {
+    if (answers[currentQuestion.key]) {
+      return answers[currentQuestion.key]
+    }
+
+    return ""
+  })
+
+  const isValueEmpty = value === ""
 
   const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
@@ -27,7 +36,7 @@ export const Age: React.FC<QuizQuestionProps> = ({
   }
 
   const goToNextPage = () => {
-    if (!isError) {
+    if (!isError && !isValueEmpty) {
       setAnswers((prev) => {
         return { ...prev, [currentQuestion.key]: value }
       })
@@ -53,7 +62,7 @@ export const Age: React.FC<QuizQuestionProps> = ({
               : undefined
           }
         />
-        <Button onClick={goToNextPage} disabled={isError}>
+        <Button onClick={goToNextPage} disabled={isError || isValueEmpty}>
           Next
         </Button>
       </AgeBlock>

@@ -1,5 +1,5 @@
 export interface QuestionType {
-  type: "single" | "multiple" | "info" | "age" | "height"
+  type: "single" | "multiple" | "info" | "age" | "height" | "weight"
   label: string
   key: string
   options?: Array<QuestionOptionsType>

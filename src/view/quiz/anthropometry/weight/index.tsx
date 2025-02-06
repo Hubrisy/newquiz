@@ -1,43 +1,46 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 
-import { Button } from "../../../components/button"
-import { Input } from "../../../components/input"
-import { useQuizContext } from "../../../context/quiz"
-import { isNumber } from "../../../utils/validation"
-import type { MeasurementSystem, QuizQuestionProps } from "../types"
+import { Button } from "../../../../components/button"
+import { Input } from "../../../../components/input"
+import { useQuizContext } from "../../../../context/quiz"
+import { isNumber } from "../../../../utils/validation"
+import type { MeasurementSystem, QuizQuestionProps } from "../../types"
 import {
-  HeightBlock,
-  HeightContainer,
+  AnthropometryBlock,
+  AnthropometryContainer,
   MetricBlock,
   MetricItem,
   MetricSystemBlock,
   QuantitesContainer,
   QuantitiesBlock,
-} from "./styled"
+} from "../styled"
 
-export const Height: React.FC<QuizQuestionProps> = ({
+export const Weight: React.FC<QuizQuestionProps> = ({
   goToNextQuestion,
   currentQuestion,
 }) => {
   const { setAnswers } = useQuizContext()
+  const [isError, setIsError] = useState(true)
   const [selectSystem, setSelectSystem] = useState<MeasurementSystem>("metric")
-  const [value, setValue] = useState<Record<"cm" | "ft" | "in", string>>({
-    cm: "",
-    ft: "",
-    in: "",
+  const [value, setValue] = useState<Record<"kg" | "lb", string>>({
+    kg: "",
+    lb: "",
   })
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: "cm" | "ft" | "in"
+    field: "kg" | "lb"
   ) => {
     const inputValue = e.target.value
 
     if (isNumber(inputValue) || inputValue === "") {
+      setIsError(false)
       setValue((prev) => ({
         ...prev,
         [field]: e.target.value,
       }))
+    } else {
+      setIsError(true)
     }
   }
 
@@ -52,25 +55,42 @@ export const Height: React.FC<QuizQuestionProps> = ({
       goToNextQuestion()
     }
 
-    if (selectSystem === "metric") {
-      if (isNumber(value.cm)) {
-        f(value.cm)
-      }
-    } else if (selectSystem === "imperial") {
-      if (isNumber(value.ft) && isNumber(value.in)) {
-        const convertationToCm = (
-          Number(value.ft) * 30.48 +
-          Number(value.in) * 2.54
-        ).toFixed(0)
+    if (!isError) {
+      if (selectSystem === "metric") {
+        if (isNumber(value.kg)) {
+          f(value.kg)
+        }
+      } else if (selectSystem === "imperial") {
+        if (isNumber(value.lb)) {
+          const convertationToKg = (Number(value.lb) / 2.2).toFixed(0)
 
-        f(convertationToCm)
+          f(convertationToKg)
+        }
       }
     }
   }
 
+  const isDisabled = useMemo(() => {
+    if (selectSystem === "metric") {
+      if (value.kg === "") {
+        return true
+      }
+
+      return false
+    }
+
+    if (selectSystem === "imperial") {
+      if (value.lb === "") {
+        return true
+      }
+
+      return false
+    }
+  }, [value, selectSystem])
+
   return (
-    <HeightContainer>
-      <HeightBlock>
+    <AnthropometryContainer>
+      <AnthropometryBlock>
         <h1>{currentQuestion.label}</h1>
         <MetricBlock>
           <MetricSystemBlock>
@@ -89,30 +109,27 @@ export const Height: React.FC<QuizQuestionProps> = ({
             {selectSystem === "metric" && (
               <QuantitiesBlock>
                 <Input
-                  value={value.cm}
-                  placeholder="cm"
-                  onChange={(e) => handleInputChange(e, "cm")}
+                  value={value.kg}
+                  placeholder="kg"
+                  onChange={(e) => handleInputChange(e, "kg")}
                 />
               </QuantitiesBlock>
             )}
             {selectSystem === "imperial" && (
               <QuantitiesBlock>
                 <Input
-                  value={value.ft}
-                  placeholder="ft"
-                  onChange={(e) => handleInputChange(e, "ft")}
-                />
-                <Input
-                  value={value.in}
-                  placeholder="in"
-                  onChange={(e) => handleInputChange(e, "in")}
+                  value={value.lb}
+                  placeholder="lb"
+                  onChange={(e) => handleInputChange(e, "lb")}
                 />
               </QuantitiesBlock>
             )}
           </QuantitesContainer>
         </MetricBlock>
-        <Button onClick={nextPage}>Continue</Button>
-      </HeightBlock>
-    </HeightContainer>
+        <Button onClick={nextPage} disabled={isError || isDisabled}>
+          Continue
+        </Button>
+      </AnthropometryBlock>
+    </AnthropometryContainer>
   )
 }

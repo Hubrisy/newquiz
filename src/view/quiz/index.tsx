@@ -27,8 +27,13 @@ const LazyInfo = React.lazy(() =>
   }))
 )
 const LazyHeight = React.lazy(() =>
-  import("./height").then((module) => ({
+  import("./anthropometry/height").then((module) => ({
     default: module.Height,
+  }))
+)
+const LazyWeight = React.lazy(() =>
+  import("./anthropometry/weight").then((module) => ({
+    default: module.Weight,
   }))
 )
 
@@ -73,6 +78,7 @@ export const Quiz = () => {
       {currentQuestion.type === "info" && <LazyInfo {...questionProps} />}
       {currentQuestion.type === "age" && <LazyAge {...questionProps} />}
       {currentQuestion.type === "height" && <LazyHeight {...questionProps} />}
+      {currentQuestion.type === "weight" && <LazyWeight {...questionProps} />}
     </div>
   )
 }

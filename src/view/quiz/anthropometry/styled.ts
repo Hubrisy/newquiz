@@ -4,7 +4,7 @@ interface MetricItemProps {
   isSelected: boolean
 }
 
-export const HeightContainer = styled.div`
+export const AnthropometryContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -12,7 +12,7 @@ export const HeightContainer = styled.div`
   flex-direction: column;
 `
 
-export const HeightBlock = styled.div`
+export const AnthropometryBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
