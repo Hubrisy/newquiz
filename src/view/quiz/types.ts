@@ -1,7 +1,7 @@
 import type { QuestionType } from "../../types"
 
 export interface QuizQuestionProps {
-  goToNextQuestion: () => void
+  goToNextQuestion: (answers: string) => void
   currentQuestion: QuestionType
 }
 

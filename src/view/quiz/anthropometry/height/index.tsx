@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react"
 
 import { Input } from "../../../../components/input"
-import { useQuizContext } from "../../../../context/quiz"
 import { isNumber } from "../../../../utils/validation"
 import type { QuizQuestionProps } from "../../types"
 import { AnthropometryLayout } from "../Layout"
@@ -12,7 +11,6 @@ export const Height: React.FC<QuizQuestionProps> = ({
   goToNextQuestion,
   currentQuestion,
 }) => {
-  const { setAnswers } = useQuizContext()
   const { selectSystem, setSelectSystem } = useMetricSystem()
   const [isError, setIsError] = useState(true)
   const [value, setValue] = useState<Record<"cm" | "ft" | "in", string>>({
@@ -40,13 +38,7 @@ export const Height: React.FC<QuizQuestionProps> = ({
 
   const nextPage = () => {
     const f = (result: string) => {
-      setAnswers((prev) => {
-        return {
-          ...prev,
-          [currentQuestion.key]: result,
-        }
-      })
-      goToNextQuestion()
+      goToNextQuestion(result)
     }
 
     if (!isError) {

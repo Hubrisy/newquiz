@@ -11,7 +11,7 @@ export const Age: React.FC<QuizQuestionProps> = ({
   goToNextQuestion,
   currentQuestion,
 }) => {
-  const { answers, setAnswers } = useQuizContext()
+  const { answers } = useQuizContext()
 
   const [isError, setIsError] = useState(false)
   const [value, setValue] = useState(() => {
@@ -37,10 +37,7 @@ export const Age: React.FC<QuizQuestionProps> = ({
 
   const goToNextPage = () => {
     if (!isError && !isValueEmpty) {
-      setAnswers((prev) => {
-        return { ...prev, [currentQuestion.key]: value }
-      })
-      goToNextQuestion()
+      goToNextQuestion(value)
     }
   }
 

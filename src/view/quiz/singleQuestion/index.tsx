@@ -1,6 +1,5 @@
 import React from "react"
 
-import { useQuizContext } from "../../../context/quiz"
 import Arrow from "../../../imgs/arrow.png"
 import { QuestionItem, QuestionsBlock, QuizContainer } from "../styled"
 import type { QuizQuestionProps } from "../types"
@@ -9,15 +8,8 @@ export const SingleQuestion: React.FC<QuizQuestionProps> = ({
   currentQuestion,
   goToNextQuestion,
 }) => {
-  const { setAnswers } = useQuizContext()
-
   const handleClick = (answer: string) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [currentQuestion.key]: answer,
-    }))
-
-    goToNextQuestion()
+    goToNextQuestion(answer)
   }
 
   return (

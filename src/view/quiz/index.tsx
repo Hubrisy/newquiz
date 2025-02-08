@@ -38,7 +38,7 @@ const LazyWeight = React.lazy(() =>
 )
 
 export const Quiz = () => {
-  const { questions } = useQuizContext()
+  const { questions, setAnswers } = useQuizContext()
 
   const params = useParams()
   const navigate = useNavigate()
@@ -46,12 +46,23 @@ export const Quiz = () => {
   const currentIndex = Number(params.inx) - 1
   const currentQuestion = questions[currentIndex]
 
-  const goToNextQuestion = () => {
+  const goToNextQuestion = (answer: string) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [currentQuestion.key]: answer,
+    }))
+
     const nextNumber = currentIndex + 2
-    console.log("Navigating to:", nextNumber)
 
     if (nextNumber <= questions.length) {
-      navigate(Routes.quiz.replace(":inx", `${nextNumber}`))
+      if (
+        currentQuestion.key === "primary_goal" &&
+        answer !== "improve_specific_body_areas"
+      ) {
+        navigate(Routes.quiz.replace(":inx", `${nextNumber + 1}`))
+      } else {
+        navigate(Routes.quiz.replace(":inx", `${nextNumber}`))
+      }
     } else {
       navigate(Routes.result)
     }

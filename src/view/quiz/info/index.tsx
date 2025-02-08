@@ -9,7 +9,7 @@ export const Info: React.FC<QuizQuestionProps> = ({
   goToNextQuestion,
 }) => {
   const nextPage = () => {
-    goToNextQuestion()
+    goToNextQuestion("")
   }
 
   return (

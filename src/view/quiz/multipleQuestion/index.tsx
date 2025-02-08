@@ -10,7 +10,7 @@ export const MultipleQuestion: React.FC<QuizQuestionProps> = ({
   currentQuestion,
   goToNextQuestion,
 }) => {
-  const { answers, setAnswers } = useQuizContext()
+  const { answers } = useQuizContext()
   const [checkedOptions, setCheckedOptions] = useState<
     Array<QuestionOptionsType>
   >(() => {
@@ -51,16 +51,7 @@ export const MultipleQuestion: React.FC<QuizQuestionProps> = ({
 
   const nextPage = () => {
     if (checkedOptions.length) {
-      setAnswers((prev) => {
-        return {
-          ...prev,
-          [currentQuestion.key]: checkedOptions
-            .map((option) => option.value)
-            .join("|"),
-        }
-      })
-
-      goToNextQuestion()
+      goToNextQuestion(checkedOptions.map((option) => option.value).join("|"))
     }
   }
 

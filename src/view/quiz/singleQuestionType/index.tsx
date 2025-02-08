@@ -1,28 +1,15 @@
 import React from "react"
 
-import { useQuizContext } from "../../../context/quiz"
 import Arrow from "../../../imgs/arrow.png"
-import type { QuestionType } from "../../../types"
 import { QuestionItem, QuestionsBlock, QuizContainer } from "../styled"
+import type { QuizQuestionProps } from "../types"
 
-interface Props {
-  currentQuestion: QuestionType
-  goToNextQuestion: () => void
-}
-
-export const SingleQuestion: React.FC<Props> = ({
+export const SingleQuestion: React.FC<QuizQuestionProps> = ({
   currentQuestion,
   goToNextQuestion,
 }) => {
-  const { setAnswers } = useQuizContext()
-
   const handleClick = (answer: string) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [currentQuestion.key]: answer,
-    }))
-
-    goToNextQuestion()
+    goToNextQuestion(answer)
   }
 
   return (
